@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.IO;
 using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyDAL
@@ -11,6 +10,7 @@ namespace CurrencyDAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            
             optionsBuilder.UseSqlite("Data Source=CurrencyInfo.db");
         }
 
