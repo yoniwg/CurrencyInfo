@@ -27,7 +27,7 @@ namespace CurrencyPL
         public MainPage()
         {
             this.InitializeComponent();
-            new CurrencyRatesRefresh().UpdateDataAsync();
+            DalInjection.CurrencyDataAccess.CurrenciesRates.ToArray();
         }
     }
 }

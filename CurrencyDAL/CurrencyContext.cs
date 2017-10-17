@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyDAL
 {
-    public class CurrencyContext : DbContext
+    class CurrencyContext : DbContext
     {
 
-        public DbSet<CurrencyRate> CurrencyRates { get; set; }
+        public DbSet<CurrencyRateRecord> CurrencyRates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

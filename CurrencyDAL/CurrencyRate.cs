@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyDAL
 {
-    public class CurrencyRate
+    public class CurrencyRateRecord
     {
         public long Id { get; set; }
         public string CurrencyCode { get; set; }

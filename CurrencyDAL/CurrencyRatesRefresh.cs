@@ -9,14 +9,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyDAL
 {
-    public class CurrencyRatesRefresh
+     class CurrencyRefresh
     {
-        private readonly CurrencyContext currencyContext = new CurrencyContext();
-        private readonly CurrencyLayerCaller currencyLayerCaller = new CurrencyLayerCaller();
+
+        private readonly CurrencyContext currencyContext;
+
+        private readonly CurrencyLayerCaller currencyLayerCaller;
+
         private static readonly DateTime INITIAL_DATE = new DateTime(2015, 1, 1);
+
         private Timer refreshTodaysValueTimer;
 
-        public async void UpdateDataAsync()
+
+        public CurrencyRefresh(CurrencyContext currencyContext, CurrencyLayerCaller currencyLayerCaller)
+        {
+            this.currencyContext = currencyContext;
+            this.currencyLayerCaller = currencyLayerCaller;
+
+            OnLiveRateUpdated += FireRefreshTodaysValueTimer;
+        }
+
+        public event Action OnLiveRateUpdated;
+
+
+        public async Task UpdateHistoricalRatesAsync()
         {
             var lastRecord = getLastUpdatedRecord();
             var lastRecordDate = lastRecord.Date;
@@ -30,10 +46,11 @@ namespace CurrencyDAL
                 lastRecordDate = lastRecordDate.AddDays(1);
             }
 
-            fireRefreshTodaysValueTimer();
+            OnLiveRateUpdated();
         }
 
-        private CurrencyRate getLastUpdatedRecord()
+
+        private CurrencyRateRecord getLastUpdatedRecord()
         {
             if (currencyContext.CurrencyRates.Any())
             {
@@ -41,23 +58,23 @@ namespace CurrencyDAL
                 return currencyContext.CurrencyRates.First(rec => rec.Date == maxDate);
             }
 
-            return new CurrencyRate { Date = INITIAL_DATE };
+            return new CurrencyRateRecord { Date = INITIAL_DATE };
 
         }
 
-        private void fireRefreshTodaysValueTimer()
+        public void FireRefreshTodaysValueTimer()
         {
-            refreshTodaysValueTimer = new Timer(refreshRates, null, TimeSpan.Zero, TimeSpan.FromSeconds(15));
+            refreshTodaysValueTimer = new Timer(_ => RefreshLiveRatesAsync(), null, TimeSpan.Zero, TimeSpan.FromMinutes(30));
         }
 
-        private void refreshRates(object _)
+        public async Task RefreshLiveRatesAsync()
         {
             try
             {
-                var liveRatesResponse = currencyLayerCaller.GetLiveRatesResponseAsync().Result;
+                var liveRatesResponse = await currencyLayerCaller.GetLiveRatesResponseAsync();
                 var todaysRecords = currencyContext.CurrencyRates.Where(cr => cr.Date.Date == DateTime.Today.Date);
                 var liveRates = liveRatesResponse.ToCurrencyRatesOfDate(DateTime.Now);
-                if (todaysRecords.Any()) // if today's records already exist - update old
+                if (await todaysRecords.AnyAsync()) // if today's records already exist - update old
                 {
                     foreach (var todaysRecord in todaysRecords)
                     {
@@ -71,7 +88,7 @@ namespace CurrencyDAL
                 {
                     currencyContext.CurrencyRates.AddRange(liveRates);
                 }
-                currencyContext.SaveChanges();
+                await currencyContext.SaveChangesAsync();
                 Console.WriteLine("Today's rates refreshed at: " + DateTime.Now);
             }
             catch (Exception e)

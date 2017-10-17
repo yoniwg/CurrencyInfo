@@ -108,10 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CurrencyContext.cs" />
-    <Compile Include="CurrencyDataAccess.cs" />
+    <Compile Include="ICurrencyDataAccess.cs" />
+    <Compile Include="CurrencyDataAccessImpl.cs" />
     <Compile Include="CurrencyLayerCaller.cs" />
     <Compile Include="CurrencyRate.cs" />
     <Compile Include="CurrencyRatesRefresh.cs" />
+    <Compile Include="DalInjection.cs" />
     <Compile Include="Migrations\20171014191738_AppMigration.cs" />
     <Compile Include="Migrations\20171014191738_AppMigration.designer.cs">
       <DependentUpon>20171014191738_AppMigration.cs</DependentUpon>

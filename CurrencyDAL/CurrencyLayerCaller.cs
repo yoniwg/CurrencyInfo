@@ -14,6 +14,7 @@ namespace CurrencyDAL
 {
     class CurrencyLayerCaller
     {
+
         private const string CURRENCY_LAYER_URL_FORMAT = "http://www.apilayer.net/api/{0}?access_key=ebf81dcac83466510f577f8411017684&{1}";
         private const string LIVE_ADDRESS = "live";
         private const string HISTORICAL_ADDRESS = "historical";
@@ -59,15 +60,16 @@ namespace CurrencyDAL
         }
     }
 
+
     class CurrencyLayerResponse
     {
         public CurrencyLayerResponseException error { get; set; }
         public bool success { get; set; }
         public IDictionary<string, decimal> quotes { get; set; }
 
-        public ISet<CurrencyRate> ToCurrencyRatesOfDate(DateTime date)
+        public ISet<CurrencyRateRecord> ToCurrencyRatesOfDate(DateTime date)
         {
-            return quotes.Select(quote => new CurrencyRate
+            return quotes.Select(quote => new CurrencyRateRecord
             {
                 Date = date,
                 CurrencyCode = quote.Key.Substring(3), // Remove USD prefix
@@ -76,9 +78,11 @@ namespace CurrencyDAL
         }
     }
 
+
     class CurrencyLayerResponseException : Exception
     {
         public int code { get; set; }
         public string info { get; set; }
     }
+
 }
