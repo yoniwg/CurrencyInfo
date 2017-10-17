@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace CurrencyDAL
 {
-    public class CurrencyLayerCaller
+    class CurrencyLayerCaller
     {
         private const string CURRENCY_LAYER_URL_FORMAT = "http://www.apilayer.net/api/{0}?access_key=ebf81dcac83466510f577f8411017684&{1}";
         private const string LIVE_ADDRESS = "live";
@@ -59,7 +59,7 @@ namespace CurrencyDAL
         }
     }
 
-    public class CurrencyLayerResponse
+    class CurrencyLayerResponse
     {
         public CurrencyLayerResponseException error { get; set; }
         public bool success { get; set; }
@@ -76,7 +76,7 @@ namespace CurrencyDAL
         }
     }
 
-    public class CurrencyLayerResponseException : Exception
+    class CurrencyLayerResponseException : Exception
     {
         public int code { get; set; }
         public string info { get; set; }
