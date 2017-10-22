@@ -128,9 +128,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CurrencyDAL\CurrencyDAL.csproj">
-      <Project>{83204dd4-f857-4907-b9cb-7c3ab56150dd}</Project>
-      <Name>CurrencyDAL</Name>
+    <ProjectReference Include="..\CurrencyBL\CurrencyBL.csproj">
+      <Project>{e45d6dc0-a7fd-4c70-8f58-e117eea8ef03}</Project>
+      <Name>CurrencyBL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CurrenyBE\CurrenyBE.csproj">
+      <Project>{87736125-b4a7-4f3b-b27a-66815f3b908e}</Project>
+      <Name>CurrenyBE</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

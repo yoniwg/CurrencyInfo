@@ -35,7 +35,7 @@ namespace CurrencyDAL
         public async Task UpdateHistoricalRatesAsync()
         {
             var lastRecord = getLastUpdatedRecord();
-            var lastRecordDate = lastRecord.Date;
+            var lastRecordDate = lastRecord.RateDate;
             lastRecordDate = lastRecordDate.AddDays(1);
             while (lastRecordDate.Date < DateTime.Today.Date)
             {
@@ -46,7 +46,6 @@ namespace CurrencyDAL
                 lastRecordDate = lastRecordDate.AddDays(1);
             }
 
-            OnLiveRateUpdated();
         }
 
 
@@ -54,17 +53,17 @@ namespace CurrencyDAL
         {
             if (currencyContext.CurrencyRates.Any())
             {
-                var maxDate = currencyContext.CurrencyRates.Max(rec => rec.Date);
-                return currencyContext.CurrencyRates.First(rec => rec.Date == maxDate);
+                var maxDate = currencyContext.CurrencyRates.Max(rec => rec.RateDate);
+                return currencyContext.CurrencyRates.First(rec => rec.RateDate == maxDate);
             }
 
-            return new CurrencyRateRecord { Date = INITIAL_DATE };
+            return new CurrencyRateRecord { RateDate = INITIAL_DATE };
 
         }
 
         public void FireRefreshTodaysValueTimer()
         {
-            refreshTodaysValueTimer = new Timer(_ => RefreshLiveRatesAsync(), null, TimeSpan.Zero, TimeSpan.FromMinutes(30));
+            refreshTodaysValueTimer = new Timer(async _ => await RefreshLiveRatesAsync(), null, TimeSpan.Zero, TimeSpan.FromMinutes(30));
         }
 
         public async Task RefreshLiveRatesAsync()
@@ -72,14 +71,14 @@ namespace CurrencyDAL
             try
             {
                 var liveRatesResponse = await currencyLayerCaller.GetLiveRatesResponseAsync();
-                var todaysRecords = currencyContext.CurrencyRates.Where(cr => cr.Date.Date == DateTime.Today.Date);
+                var todaysRecords = currencyContext.CurrencyRates.Where(cr => cr.RateDate.Date == DateTime.Today.Date);
                 var liveRates = liveRatesResponse.ToCurrencyRatesOfDate(DateTime.Now);
                 if (await todaysRecords.AnyAsync()) // if today's records already exist - update old
                 {
                     foreach (var todaysRecord in todaysRecords)
                     {
-                        var sameCurrency = liveRates.Single(tr => tr.CurrencyCode == todaysRecord.CurrencyCode);
-                        todaysRecord.Date = sameCurrency.Date;
+                        var sameCurrency = liveRates.Single(tr => tr.Source == todaysRecord.Source);
+                        todaysRecord.RateDate = sameCurrency.RateDate;
                         todaysRecord.Rate = sameCurrency.Rate;
                     }
                     currencyContext.CurrencyRates.UpdateRange(todaysRecords);
@@ -90,6 +89,7 @@ namespace CurrencyDAL
                 }
                 await currencyContext.SaveChangesAsync();
                 Console.WriteLine("Today's rates refreshed at: " + DateTime.Now);
+                OnLiveRateUpdated();
             }
             catch (Exception e)
             {

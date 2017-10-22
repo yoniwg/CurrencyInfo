@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reactive.Bindings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,11 @@ namespace CurrencyDAL
     public interface ICurrencyDataAccess 
     {
         
-        IQueryable<CurrencyRateRecord> CurrenciesRates { get; }
+        IReactiveProperty<IQueryable<CurrencyRateRecord>> CurrencyRateRecords { get; }
 
-        event Action OnLiveRatesRefresh;
+        Task initHistoricalDataAsync();
+
+        Task RefreshLiveRatesAsync();
 
     }
 }

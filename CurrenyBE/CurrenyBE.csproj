@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{83204DD4-F857-4907-B9CB-7C3AB56150DD}</ProjectGuid>
+    <ProjectGuid>{87736125-B4A7-4F3B-B27A-66815F3B908E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CurrencyDAL</RootNamespace>
-    <AssemblyName>CurrencyDAL</AssemblyName>
+    <RootNamespace>CurrenyBE</RootNamespace>
+    <AssemblyName>CurrenyBE</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -102,36 +102,18 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CurrencyContext.cs" />
-    <Compile Include="ICurrencyDataAccess.cs" />
-    <Compile Include="CurrencyDataAccess.cs" />
-    <Compile Include="CurrencyLayerCaller.cs" />
-    <Compile Include="CurrencyRate.cs" />
-    <Compile Include="CurrencyRatesRefresh.cs" />
-    <Compile Include="Migrations\20171014191738_AppMigration.cs" />
-    <Compile Include="Migrations\20171014191738_AppMigration.designer.cs">
-      <DependentUpon>20171014191738_AppMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\CurrencyContextModelSnapshot.cs" />
+    <Compile Include="Currency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\CurrencyDAL.rd.xml" />
+    <EmbeddedResource Include="Properties\CurrenyBE.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Configuration.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CurrenyBE\CurrenyBE.csproj">
-      <Project>{87736125-b4a7-4f3b-b27a-66815f3b908e}</Project>
-      <Name>CurrenyBE</Name>
-    </ProjectReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

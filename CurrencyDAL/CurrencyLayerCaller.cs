@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Globalization.DateTimeFormatting;
 using Newtonsoft.Json;
+using CurrencyBE;
 
 namespace CurrencyDAL
 {
@@ -71,8 +72,8 @@ namespace CurrencyDAL
         {
             return quotes.Select(quote => new CurrencyRateRecord
             {
-                Date = date,
-                CurrencyCode = quote.Key.Substring(3), // Remove USD prefix
+                RateDate = date,
+                Source = new Currency(quote.Key.Substring(3)), // Remove USD prefix
                 Rate = quote.Value
             }).ToImmutableHashSet();
         }

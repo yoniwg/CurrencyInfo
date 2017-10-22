@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CurrencyBE;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,8 @@ namespace CurrencyDAL
     public class CurrencyRateRecord
     {
         public long Id { get; set; }
-        public string CurrencyCode { get; set; }
+        public Currency Source { get; set; }
         public decimal Rate { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime RateDate { get; set; }
     }
 }
