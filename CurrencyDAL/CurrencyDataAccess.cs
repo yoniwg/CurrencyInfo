@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CurrencyDAL
 {
 
-    class CurrencyDataAccess : ICurrencyDataAccess
+    public class CurrencyDataAccess : ICurrencyDataAccess
     {
 
         private readonly CurrencyContext currencyContext;

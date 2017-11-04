@@ -14,7 +14,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using CurrencyDAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyPL
@@ -32,11 +31,7 @@ namespace CurrencyPL
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-
-            using (var db = new CurrencyContext())
-            {
-                db.Database.Migrate();
-            }
+            
         }
 
         /// <summary>

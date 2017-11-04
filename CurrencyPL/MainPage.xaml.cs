@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using CurrencyDAL;
 using Microsoft.EntityFrameworkCore.Internal;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -27,6 +26,26 @@ namespace CurrencyPL
         public MainPage()
         {
             this.InitializeComponent();
+
+        }
+
+        private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+
+        }
+
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+
+        }
+
+        private void NavView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void More_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }
