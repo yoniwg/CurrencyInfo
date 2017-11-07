@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace CurrencyPL.ViewModels
 {
-    class HistoryVM : AbstractVM
+    public class HistoryVM : AbstractVM
     {
 
         private readonly ICurrencyBusinessLogic logic;

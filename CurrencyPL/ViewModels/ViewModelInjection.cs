@@ -7,7 +7,7 @@ using CurrencyBL;
 
 namespace CurrencyPL.ViewModels
 {
-    class ViewModelInjection
+    public class ViewModelInjection
     {
 
         private ICurrencyBusinessLogic logic;

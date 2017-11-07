@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyPL.ViewModels
 {
-    class LiveRatesVM : AbstractVM
+    public class LiveRatesVM : AbstractVM
     {
         private readonly ICurrencyBusinessLogic logic;
 

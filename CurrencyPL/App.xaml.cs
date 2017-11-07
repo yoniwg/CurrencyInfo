@@ -27,7 +27,7 @@ namespace CurrencyPL
     {
 
         private ICurrencyBusinessLogic Logic;
-        public ViewModelInjection VMInjuction;
+        public ViewModelInjection VMInjuction { get; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -38,11 +38,9 @@ namespace CurrencyPL
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             
-            {
-                Logic = new CurrencyBusinessLogic();
-                Logic.Init();
-                VMInjuction = new ViewModelInjection(Logic);
-            }
+            Logic = new CurrencyBusinessLogic();
+            Logic.Init();
+            VMInjuction = new ViewModelInjection(Logic);
         }
 
         /// <summary>

@@ -21,6 +21,6 @@
                  Text="{Binding SourceAmount, Converter={StaticResource DecimalStringFormatter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
         <TextBlock x:Name="TargetAmountText" Text="{Binding TargetAmount, Mode=TwoWay}" />
-        <Button x:Name="button" Content="Greet Me" Click="{Binding Path=FlipCurrenciesCommand}" />
+        <Button x:Name="button" Content="Greet Me" Command="{Binding Path=FlipCurrenciesCommand}" />
     </StackPanel>
 </Page>
