@@ -9,18 +9,45 @@
     <Page.Resources>
         <local:DecimalStringFormatter x:Key="DecimalStringFormatter"/>
     </Page.Resources>
-
-    <StackPanel>
-        <ComboBox x:Name="SourceCurrencyCombo" 
-              ItemsSource="{Binding AvailableCurrencies}" 
-              SelectedItem="{Binding SourceCurrency, Mode=TwoWay}"></ComboBox>
-        <ComboBox x:Name="TargetCurrencyCombo"
-                  ItemsSource="{Binding AvailableCurrencies}" 
-              SelectedItem="{Binding TargetCurrency, Mode=TwoWay}"></ComboBox>
-        <TextBox x:Name="SourceAmountText"  
-                 Text="{Binding SourceAmount, Converter={StaticResource DecimalStringFormatter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-        </TextBox>
-        <TextBlock x:Name="TargetAmountText" Text="{Binding TargetAmount, Mode=TwoWay}" />
-        <Button x:Name="button" Content="Greet Me" Command="{Binding Path=FlipCurrenciesCommand}" />
-    </StackPanel>
+    <Grid >
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="100">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="79*"/>
+                    <RowDefinition Height="21*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="127*"/>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="127*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Width="45">Source</TextBlock>
+                <ComboBox  Grid.Row="0" Grid.Column="0"
+                x:Name="TargetCurrencyCombo"
+                      ItemsSource="{Binding AvailableCurrencies}" 
+                      SelectedItem="{Binding TargetCurrency, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="120" />
+                <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Width="41">Target</TextBlock>
+                <ComboBox Grid.Column="2" Grid.Row="0" x:Name="SourceCurrencyCombo" 
+                      ItemsSource="{Binding AvailableCurrencies}" 
+                      SelectedItem="{Binding SourceCurrency, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="120"/>
+                <Button Grid.Row="0" Grid.Column="1" x:Name="button" Command="{Binding FlipCurrenciesCommand}" HorizontalAlignment="Center" Height="40" Width="40">
+                    <Image Source="Assets/flipIcon.png"/>
+                </Button>
+            </Grid>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="100">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="44*"/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="44*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Row="1" x:Name="SourceAmountText"  
+                     Text="{Binding SourceAmount, Converter={StaticResource DecimalStringFormatter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBox Grid.Row="3" x:Name="TargetAmountText" Text="{Binding TargetAmount, Mode=TwoWay, Converter={StaticResource DecimalStringFormatter}}" IsReadOnly="True" Height="40" Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+        </StackPanel>
+    </Grid>
 </Page>

@@ -58,9 +58,10 @@ namespace CurrencyPL.ViewModels
             FlipCurrenciesCommand = new AbstractCommand(e => {
                 var oldSource = SourceCurrency;
                 var oldTarget = TargetCurrency;
+                var oldTargetAmount = TargetAmount;
                 SourceCurrency = oldTarget;
                 TargetCurrency = oldSource;
-                SourceAmount = TargetAmount;
+                SourceAmount = oldTargetAmount;
                 // The TargetAmount will be automatcally updated.
             });
 
@@ -69,10 +70,7 @@ namespace CurrencyPL.ViewModels
             TargetCurrency = AvailableCurrencies[1];
         }
 
-        ICommand FlipCurrenciesCommand {
-            get => GetValue(() => FlipCurrenciesCommand);
-            set => SetValue(() => FlipCurrenciesCommand, value);
-        } 
+        public ICommand FlipCurrenciesCommand { get; } 
 
 
 
