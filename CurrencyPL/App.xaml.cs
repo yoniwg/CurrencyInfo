@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.EntityFrameworkCore;
+using CurrencyBL;
 
 namespace CurrencyPL
 {
@@ -23,6 +24,9 @@ namespace CurrencyPL
     /// </summary>
     sealed partial class App : Application
     {
+
+        public ICurrencyBusinessLogic Logic { get; } = new CurrencyBusinessLogic();
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -32,6 +36,9 @@ namespace CurrencyPL
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             
+            {
+                Logic.Init();
+            }
         }
 
         /// <summary>

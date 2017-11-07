@@ -13,6 +13,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.EntityFrameworkCore.Internal;
+using Windows.UI.Popups;
+using CurrencyPL.ViewModels;
+using CurrencyBL;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -23,15 +26,24 @@ namespace CurrencyPL
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+
         public MainPage()
         {
             this.InitializeComponent();
-
         }
 
-        private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        private async void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-
+            switch(args.InvokedItem)
+            {
+                case "Home":
+                    ContentFrame.Navigate(typeof(ConvertionPage));
+                    break;
+                default:
+                    ContentFrame.Navigate(typeof(ErrorPage));
+                    break;
+            }
         }
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -44,9 +56,10 @@ namespace CurrencyPL
 
         }
 
-        private void More_Click(object sender, RoutedEventArgs e)
+        private async void More_Click(object sender, RoutedEventArgs e)
         {
-
+            await new MessageDialog("This amaizong application havae been done by HGWY Technologies...").ShowAsync();
         }
+
     }
 }

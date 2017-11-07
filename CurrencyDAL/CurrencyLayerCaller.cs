@@ -40,8 +40,9 @@ namespace CurrencyDAL
             try
             {
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(requestUriString);
+                httpWebRequest.ContinueTimeout = 10;
 
-                var httpResponse = await httpWebRequest.GetResponseAsync();
+                var httpResponse = httpWebRequest.GetResponseAsync().Result; // Async removed
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
                     var responseText = await streamReader.ReadToEndAsync();

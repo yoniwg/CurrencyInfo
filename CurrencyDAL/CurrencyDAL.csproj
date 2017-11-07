@@ -111,7 +111,7 @@
     <Compile Include="ICurrencyDataAccess.cs" />
     <Compile Include="CurrencyDataAccess.cs" />
     <Compile Include="CurrencyLayerCaller.cs" />
-    <Compile Include="CurrencyRate.cs" />
+    <Compile Include="CurrencyRateRecord.cs" />
     <Compile Include="CurrencyRatesRefresh.cs" />
     <Compile Include="Migrations\20171014191738_AppMigration.cs" />
     <Compile Include="Migrations\20171014191738_AppMigration.designer.cs">

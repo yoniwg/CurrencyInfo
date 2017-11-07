@@ -17,23 +17,28 @@ namespace CurrencyDAL
 
         private readonly CurrencyRefresh currencyReferesh;
 
-        public IReactiveProperty<IQueryable<CurrencyRateRecord>> CurrencyRateRecords { get; private set; }
+        public event Action OnLiveRatesUpdated
+        {
+            add => currencyReferesh.OnLiveRateUpdated += value;
+            remove => currencyReferesh.OnLiveRateUpdated -= value;
+        }
+
+        
+        IQueryable<CurrencyRateRecord> ICurrencyDataAccess.CurrencyRateRecords => currencyContext.CurrencyRates;
 
         public CurrencyDataAccess()
         {
             currencyContext = new CurrencyContext();
+            currencyContext.Database.EnsureCreated();
+
+
             currencyReferesh = new CurrencyRefresh(currencyContext, new CurrencyLayerCaller());
 
-            this.CurrencyRateRecords = Observable.FromEvent(action => currencyReferesh.OnLiveRateUpdated += action,
-                                                    action => currencyReferesh.OnLiveRateUpdated -= action)
-                                                    .StartWith(Unit.Default)
-                                                    .Select(_=> currencyContext.CurrencyRates.AsQueryable())
-                                                    .ToReactiveProperty();
         }
 
-        public async Task RefreshLiveRatesAsync() => await currencyReferesh.RefreshLiveRatesAsync();
+        public async Task UpdateLiveRatesAsync() => await currencyReferesh.RefreshLiveRatesAsync();
 
-        public async Task initHistoricalDataAsync() => await currencyReferesh.UpdateHistoricalRatesAsync();
+        public async Task InitHistoricalDataAsync() => await currencyReferesh.UpdateHistoricalRatesAsync();
     }
 
 }

@@ -25,7 +25,9 @@ namespace CurrencyBL
         /// <param name="start">The start of the date range.</param>
         /// <param name="end"> The end of the day range, exclusive.</param>
         /// <returns>A list of rates for each day in the range.</returns>
-        Task<HistoricalRate> GetHistoricalRate(Currency source, Currency target, DateTime start, DateTime end);
+        HistoricalRate GetHistoricalRate(Currency source, Currency target, DateTime start, DateTime end);
+
+        void Init();
 
     }
 

@@ -1,4 +1,6 @@
-﻿namespace CurrencyBE
+﻿using System;
+
+namespace CurrencyBE
 {
     public class Currency
     {
@@ -7,10 +9,18 @@
 
         public Currency(string currencyCode)
         {
+            if (currencyCode == null) throw new ArgumentNullException("currencyCode is null");
             this.Code = currencyCode;
         }
 
-        //TODO Equals HashCode
+        public override bool Equals(object obj) => obj is Currency && ((Currency)obj).Code == Code;
 
+
+        public override int GetHashCode() => Code.GetHashCode();
+
+        public override string ToString()
+        {
+            return Code;
+        }
     }
 }

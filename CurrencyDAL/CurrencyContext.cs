@@ -14,6 +14,12 @@ namespace CurrencyDAL
             optionsBuilder.UseSqlite("Data Source=CurrencyInfo.db");
         }
 
-       
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CurrencyRateRecord>()
+                .Property("_source");
+        }
+
     }
 }

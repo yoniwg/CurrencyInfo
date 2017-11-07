@@ -13,6 +13,7 @@
                     SelectionChanged="NavView_SelectionChanged"
                     Loaded="NavView_Loaded">
 
+
         <NavigationView.MenuItems>
             <NavigationViewItem Content="Home" Tag="home">
                 <NavigationViewItem.Icon>
@@ -67,5 +68,5 @@
                 </TransitionCollection>
             </Frame.ContentTransitions>
         </Frame>
-
-    </NavigationView></Page>
+    </NavigationView>
+</Page>

@@ -13,63 +13,82 @@ using System.Threading.Tasks;
 
 namespace CurrencyBL
 {
-    class CurrencyBusinessLogic : ICurrencyBusinessLogic
+    public class CurrencyBusinessLogic : ICurrencyBusinessLogic
     {
 
         private readonly ICurrencyDataAccess data = new CurrencyDataAccess();
 
-        private IReactiveProperty<CurrencyConverter> liveConverter;
+        private ReactiveProperty<CurrencyConverter> liveConverter = new ReactiveProperty<CurrencyConverter>();
 
         public IEnumerable<Currency> AvailableCurrencies => liveConverter.Value.AvailableCurrencies;
 
-        public async Task init()
-        {
-            await data.initHistoricalDataAsync();
-            await data.RefreshLiveRatesAsync();
+        private Task initTask;
 
-            liveConverter = data.CurrencyRateRecords
-                .SelectSwitchElements(_ => getLiveCurrencyConverterAsync())
-                .ToReactiveProperty();
+        public void Init()
+        {
+            initActual();
+            /*
+            // avoid multiple initiializations.
+            if (initTask == null || initTask.IsCanceled || initTask.IsFaulted)
+            {
+                initTask = initActual();
+            }
+            await initTask;
+            */
         }
 
-        private Task<CurrencyConverter> getLiveCurrencyConverterAsync()
+        public void initActual()
         {
-            var lastDate = data.CurrencyRateRecords.Value
+                data.InitHistoricalDataAsync();
+                data.UpdateLiveRatesAsync();
+                RefreshLiveConverterAsync();
+                data.OnLiveRatesUpdated += () => RefreshLiveConverterAsync();
+            
+        }
+        
+        private void RefreshLiveConverterAsync()
+        {
+            liveConverter.Value = getLiveCurrencyConverter();
+        }
+
+        private CurrencyConverter getLiveCurrencyConverter()
+        {
+            var lastDate = data.CurrencyRateRecords
                 .Select(rec => rec.RateDate)
                 .Max();
-            return getCurrencyConverterAsync(lastDate);
+            return getCurrencyConverter(lastDate);
         }
 
-        private async Task<CurrencyConverter> getCurrencyConverterAsync(DateTime date)
+        private CurrencyConverter getCurrencyConverter(DateTime date)
         {
-            var dict = await data.CurrencyRateRecords.Value
+                var dict = data.CurrencyRateRecords
                         .Where(rec => rec.RateDate.Date == date.Date)
-                        .ToDictionaryAsync(rec => rec.Source, rec => rec.Rate);
+                        .ToDictionary(rec => rec.Source, rec => rec.Rate);
             return new CurrencyConverter(dict);
         }
 
-        private async Task<IList<decimal>> getHistoricalRatesToUSDAsync(Currency source, DateTime start, DateTime end)
+        private IList<decimal> getHistoricalRatesToUSD(Currency source, DateTime start, DateTime end)
         {
-            return await data.CurrencyRateRecords.Value
+            return data.CurrencyRateRecords
                 .Where(rec => rec.Source.Code == source.Code && start.Date <= rec.RateDate && rec.RateDate < end.Date)
                 .GroupBy(rec => rec.RateDate)
                 .OrderBy(dateRecGroup => dateRecGroup.Key)
                 .Select(dateRecGroup => dateRecGroup.Select(rec => rec.Rate).Single())
-                .ToListAsync();
+                .ToList();
         }
 
-        private async Task<IDictionary<Currency, LiveRate>> liveRatesOfCurrencyAsync(Currency target)
+        private IDictionary<Currency, LiveRate> liveRatesOfCurrency(Currency target)
         {
-            var lastTwoDates = await data.CurrencyRateRecords.Value
+            var lastTwoDates = data.CurrencyRateRecords
                 .Select(rec => rec.RateDate)
                 .Distinct()
                 .OrderByDescending(date => date)
                 .Take(2)
                 .Reverse()
-                .ToArrayAsync();
+                .ToArray();
 
-            var converter1 = await getCurrencyConverterAsync(lastTwoDates[0]);
-            var converter2 = await getCurrencyConverterAsync(lastTwoDates[1]);
+            var converter1 = getCurrencyConverter(lastTwoDates[0]);
+            var converter2 = getCurrencyConverter(lastTwoDates[1]);
             var availableCurrencies = converter1.AvailableCurrencies.Intersect(converter2.AvailableCurrencies);
             Func<Currency, LiveRate> currencyToLiveRate = sourceCurrency =>
             {
@@ -87,10 +106,10 @@ namespace CurrencyBL
             return liveConverter.Value.RateOf(source, target);
         }
 
-        public async Task<HistoricalRate> GetHistoricalRate(Currency source, Currency target, DateTime start, DateTime end)
+        public HistoricalRate GetHistoricalRate(Currency source, Currency target, DateTime start, DateTime end)
         {
-            var sourceRates = await getHistoricalRatesToUSDAsync(source, start, end);
-            var targetRates = await getHistoricalRatesToUSDAsync(source, start, end);
+            var sourceRates = getHistoricalRatesToUSD(source, start, end);
+            var targetRates = getHistoricalRatesToUSD(source, start, end);
             var rates = targetRates.Zip(sourceRates, (x, y) => x / y);
             return new HistoricalRate(rates);
         }
@@ -98,7 +117,9 @@ namespace CurrencyBL
 
         public IObservable<IDictionary<Currency, LiveRate>> LiveRatesOfCurrency(Currency target)
         {
-            return data.CurrencyRateRecords.SelectSwitchElements(_ => liveRatesOfCurrencyAsync(target));
+            return Observable
+                .FromEvent(h => data.OnLiveRatesUpdated += h, h => data.OnLiveRatesUpdated -= h)
+                .Select(_ => liveRatesOfCurrency(target));
         }
     }
 }

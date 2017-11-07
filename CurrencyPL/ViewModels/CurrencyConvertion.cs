@@ -12,44 +12,48 @@ using System.Windows.Input;
 
 namespace CurrencyPL.ViewModels
 {
-    class CurrencyConvertionVM : AbstractVM
+    public class ConvertionVM : AbstractVM
     {
 
-        Currency SourceCurrency {
+        public Currency SourceCurrency {
             get => GetValue(() => SourceCurrency);
             set => SetValue(() => SourceCurrency, value, RefreshConvertion);
         }
 
-        Currency TargetCurrency
+        public Currency TargetCurrency
         {
             get => GetValue(() => TargetCurrency);
             set => SetValue(() => TargetCurrency, value, RefreshConvertion);
         }
 
-        decimal SourceAmount
+        public decimal SourceAmount
         {
             get => GetValue(() => SourceAmount);
             set => SetValue(() => SourceAmount, value, RefreshConvertion);
         }
 
-        decimal TargetAmount
+        public decimal TargetAmount
         {
             get => GetValue(() => TargetAmount);
             set => SetValue(() => TargetAmount, value);
         }
 
-
+        public IList<Currency> AvailableCurrencies { get; }
+ 
         private readonly ICurrencyBusinessLogic logic;
 
         private void RefreshConvertion()
         {
+            if (SourceCurrency == null || TargetCurrency == null) return;
             TargetAmount = logic.ConvertCurrencies(SourceCurrency, TargetCurrency) * SourceAmount;
         }
 
 
-        CurrencyConvertionVM(ICurrencyBusinessLogic logic)
+        public ConvertionVM(ICurrencyBusinessLogic logic)
         {
             this.logic = logic;
+
+            AvailableCurrencies = logic.AvailableCurrencies.ToArray();// (new string[] { "USD", "ILS" }.Select(s => new Currency(s))).ToArray();
 
             FlipCurrencies = new AbstractCommand(e => {
                 var oldSource = SourceCurrency;
@@ -59,6 +63,10 @@ namespace CurrencyPL.ViewModels
                 SourceAmount = TargetAmount;
                 // The TargetAmount will be automatcally updated.
             });
+
+
+            SourceCurrency = AvailableCurrencies[0];
+            TargetCurrency = AvailableCurrencies[1];
         }
 
         ICommand FlipCurrencies { get; } 

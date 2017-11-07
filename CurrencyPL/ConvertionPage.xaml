@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="CurrencyPL.ConvertionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:CurrencyPL"
+    mc:Ignorable="d" >
+    <Page.Resources>
+        <local:DecimalStringFormatter x:Key="DecimalStringFormatter"/>
+    </Page.Resources>
+
+    <StackPanel>
+        <ComboBox x:Name="SourceCurrencyCombo" 
+              ItemsSource="{Binding AvailableCurrencies}" 
+              SelectedItem="{Binding SourceCurrency, Mode=TwoWay}"></ComboBox>
+        <ComboBox x:Name="TargetCurrencyCombo"
+                  ItemsSource="{Binding AvailableCurrencies}" 
+              SelectedItem="{Binding TargetCurrency, Mode=TwoWay}"></ComboBox>
+        <TextBox x:Name="SourceAmountText"  
+                 Text="{Binding SourceAmount, Converter={StaticResource DecimalStringFormatter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        </TextBox>
+        <TextBlock x:Name="TargetAmountText" Text="{Binding TargetAmount, Mode=TwoWay}" />
+    </StackPanel>
+</Page>

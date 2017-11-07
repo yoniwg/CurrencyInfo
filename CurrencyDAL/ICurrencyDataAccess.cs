@@ -10,11 +10,13 @@ namespace CurrencyDAL
     public interface ICurrencyDataAccess 
     {
         
-        IReactiveProperty<IQueryable<CurrencyRateRecord>> CurrencyRateRecords { get; }
+        event Action OnLiveRatesUpdated;
 
-        Task initHistoricalDataAsync();
+        IQueryable<CurrencyRateRecord> CurrencyRateRecords { get; }
 
-        Task RefreshLiveRatesAsync();
+        Task InitHistoricalDataAsync();
+
+        Task UpdateLiveRatesAsync();
 
     }
 }

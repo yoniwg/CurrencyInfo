@@ -16,7 +16,7 @@ namespace CurrencyDAL
 
         private readonly CurrencyLayerCaller currencyLayerCaller;
 
-        private static readonly DateTime INITIAL_DATE = new DateTime(2015, 1, 1);
+        private static readonly DateTime INITIAL_DATE = new DateTime(2017, 11, 3); //  new DateTime(2015, 1, 1);
 
         private Timer refreshTodaysValueTimer;
 
@@ -73,7 +73,7 @@ namespace CurrencyDAL
                 var liveRatesResponse = await currencyLayerCaller.GetLiveRatesResponseAsync();
                 var todaysRecords = currencyContext.CurrencyRates.Where(cr => cr.RateDate.Date == DateTime.Today.Date);
                 var liveRates = liveRatesResponse.ToCurrencyRatesOfDate(DateTime.Now);
-                if (await todaysRecords.AnyAsync()) // if today's records already exist - update old
+                if (todaysRecords.Any()) // if today's records already exist - update old // Async removed
                 {
                     foreach (var todaysRecord in todaysRecords)
                     {
