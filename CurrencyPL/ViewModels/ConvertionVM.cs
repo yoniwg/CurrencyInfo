@@ -69,7 +69,10 @@ namespace CurrencyPL.ViewModels
             TargetCurrency = AvailableCurrencies[1];
         }
 
-        ICommand FlipCurrenciesCommand { get; } 
+        ICommand FlipCurrenciesCommand {
+            get => GetValue(() => FlipCurrenciesCommand);
+            set => SetValue(() => FlipCurrenciesCommand, value);
+        } 
 
 
 

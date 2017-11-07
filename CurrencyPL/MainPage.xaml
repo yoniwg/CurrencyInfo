@@ -22,13 +22,13 @@
             </NavigationViewItem>
             <NavigationViewItemSeparator/>
             <NavigationViewItemHeader Content="Main pages"/>
-            <NavigationViewItem Icon="AllApps" Content="Apps" Tag="apps"/>
-            <NavigationViewItem Icon="Video" Content="Games" Tag="games"/>
-            <NavigationViewItem Icon="Audio" Content="Music" Tag="music"/>
+            <NavigationViewItem Icon="AllApps" Content="Conversion" Tag="convsersions"/>
+            <NavigationViewItem Icon="Video" Content="Live Rates" Tag="live_rates"/>
+            <NavigationViewItem Icon="Audio" Content="History" Tag="history"/>
         </NavigationView.MenuItems>
 
         <NavigationView.AutoSuggestBox>
-            <AutoSuggestBox x:Name="ASB" QueryIcon="Find"/>
+            <AutoSuggestBox x:Name="ASB" QueryIcon="Find" Visibility="Collapsed"/>
         </NavigationView.AutoSuggestBox>
 
         <NavigationView.HeaderTemplate>

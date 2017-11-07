@@ -1,4 +1,5 @@
 ﻿
+using CurrencyBE;
 using CurrencyBL;
 using System;
 using System.Collections.Generic;
@@ -19,24 +20,57 @@ namespace CurrencyPL.ViewModels
         public HistoryVM(ICurrencyBusinessLogic logic)
         {
             this.logic = logic;
-            this.SelectRangeCommand = new AbstractCommand(OnSelectRange);
+            this.SelectRangeCommand = new AbstractCommand(param => SelectedRange = (HistoryRange)param);
         }
 
-
-        private void OnSelectRange(object input)
+        public Currency TargetCurrency
         {
-            var historyRange = (HistoryRange)input;
-            switch (historyRange)
+            get => GetValue(() => TargetCurrency);
+            set => SetValue(() => TargetCurrency, value, RefreshGraph);
+        }
+
+        public Currency SourceCurency
+        {
+            get => GetValue(() => SourceCurency);
+            set => SetValue(() => SourceCurency, value, RefreshGraph);
+        }
+
+        public HistoryRange SelectedRange
+        {
+            get => GetValue(() => SelectedRange);
+            set => SetValue(() => SelectedRange, value, RefreshGraph);
+        }
+
+        private HistoricalRate History
+        {
+            get => GetValue(() => History);
+            set => SetValue(() => History, value);
+        }
+
+        private void RefreshGraph()
+        {
+            DateTime start = GetStartDateForRange(SelectedRange);
+            logic.GetHistoricalRate(SourceCurency, TargetCurrency, start, DateTime.Now);
+        }
+
+        private DateTime GetStartDateForRange(HistoryRange range)
+        {
+            switch (range)
             {
+                case HistoryRange.WEEK:
+                    return DateTime.Now.AddDays(-7);
+                case HistoryRange.MONTH:
+                    return DateTime.Now.AddMonths(-1);
+                case HistoryRange.YEAR:
+                    return DateTime.Now.AddYears(-1);
                 default:
                     throw new NotImplementedException("unexpected enum value.");
-                    break;
             }
         }
 
     }
 
-        enum HistoryRange
+     public enum HistoryRange
     {
         WEEK, MONTH, YEAR
     }

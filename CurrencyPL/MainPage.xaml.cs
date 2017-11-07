@@ -38,7 +38,19 @@ namespace CurrencyPL
             switch(args.InvokedItem)
             {
                 case "Home":
+                    ContentFrame.Navigate(typeof(HomePage));
+                    break;
+                case "Conversion":
                     ContentFrame.Navigate(typeof(ConvertionPage));
+                    break;
+                case "Live Rates":
+                    ContentFrame.Navigate(typeof(LiveRatesPage));
+                    break;
+                case "History":
+                    ContentFrame.Navigate(typeof(HistoryPage));
+                    break;
+                case "Settings":
+                    ContentFrame.Navigate(typeof(SettingsPage));
                     break;
                 default:
                     ContentFrame.Navigate(typeof(ErrorPage));
