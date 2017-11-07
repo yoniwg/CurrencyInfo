@@ -30,11 +30,8 @@ namespace CurrencyPL
         public ConvertionPage()
         {
 
-            var logic = ((App)Application.Current).Logic;
-
-            ViewModel = new ConvertionVM(logic);
+            ViewModel = ((App)Application.Current).VMInjuction.ProvideConversionVM();
             DataContext = ViewModel;
-
 
             this.InitializeComponent();
 

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.EntityFrameworkCore;
 using CurrencyBL;
+using CurrencyPL.ViewModels;
 
 namespace CurrencyPL
 {
@@ -25,7 +26,8 @@ namespace CurrencyPL
     sealed partial class App : Application
     {
 
-        public ICurrencyBusinessLogic Logic { get; } = new CurrencyBusinessLogic();
+        private ICurrencyBusinessLogic Logic;
+        public ViewModelInjection VMInjuction;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -37,7 +39,9 @@ namespace CurrencyPL
             this.Suspending += OnSuspending;
             
             {
+                Logic = new CurrencyBusinessLogic();
                 Logic.Init();
+                VMInjuction = new ViewModelInjection(Logic);
             }
         }
 

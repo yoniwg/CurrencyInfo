@@ -55,7 +55,7 @@ namespace CurrencyPL.ViewModels
 
             AvailableCurrencies = logic.AvailableCurrencies.ToArray();// (new string[] { "USD", "ILS" }.Select(s => new Currency(s))).ToArray();
 
-            FlipCurrencies = new AbstractCommand(e => {
+            FlipCurrenciesCommand = new AbstractCommand(e => {
                 var oldSource = SourceCurrency;
                 var oldTarget = TargetCurrency;
                 SourceCurrency = oldTarget;
@@ -69,7 +69,7 @@ namespace CurrencyPL.ViewModels
             TargetCurrency = AvailableCurrencies[1];
         }
 
-        ICommand FlipCurrencies { get; } 
+        ICommand FlipCurrenciesCommand { get; } 
 
 
 

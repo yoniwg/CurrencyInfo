@@ -94,7 +94,7 @@ namespace CurrencyBL
             {
                 var rate1 = converter1.RateOf(sourceCurrency, target);
                 var rate2 = converter2.RateOf(sourceCurrency, target);
-                return new LiveRate(rate2, rate2 / rate1);
+                return new LiveRate(sourceCurrency, target, rate2, rate2 / rate1);
             };
 
             return availableCurrencies.ToDictionary(currency => currency, currencyToLiveRate);

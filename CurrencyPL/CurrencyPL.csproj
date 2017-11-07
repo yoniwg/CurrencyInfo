@@ -93,7 +93,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DecimalStringFormatter.cs" />
     <Compile Include="ConvertionPage.xaml.cs">
       <DependentUpon>ConvertionPage.xaml</DependentUpon>
     </Compile>
@@ -110,7 +110,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReactiveUtils.cs" />
-    <Compile Include="ViewModels\CurrencyConvertion.cs" />
+    <Compile Include="ViewModels\ConvertionVM.cs" />
+    <Compile Include="ViewModels\HistoryVM.cs" />
+    <Compile Include="ViewModels\LiveRatesVM.cs" />
+    <Compile Include="ViewModels\ViewModelInjection.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
