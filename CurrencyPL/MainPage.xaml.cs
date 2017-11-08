@@ -31,6 +31,7 @@ namespace CurrencyPL
         public MainPage()
         {
             this.InitializeComponent();
+
         }
 
         private async void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -65,6 +66,15 @@ namespace CurrencyPL
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
+            // set the initial SelectedItem 
+            foreach (NavigationViewItemBase item in NavView.MenuItems)
+            {
+                if (item is NavigationViewItem && item.Tag.ToString() == "home")
+                {
+                    NavView.SelectedItem = item;
+                    break;
+                }
+            }
 
         }
 

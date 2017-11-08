@@ -49,7 +49,7 @@ namespace CurrencyPL.ViewModels
         }
 
 
-        public ConvertionVM(ICurrencyBusinessLogic logic)
+        public ConvertionVM(ICurrencyBusinessLogic logic, AppPreferences prefs)
         {
             this.logic = logic;
 
@@ -65,9 +65,8 @@ namespace CurrencyPL.ViewModels
                 // The TargetAmount will be automatcally updated.
             });
 
-
-            SourceCurrency = AvailableCurrencies[0];
-            TargetCurrency = AvailableCurrencies[1];
+            SourceCurrency = prefs.DefaultSourceCurrency;
+            TargetCurrency = prefs.MainTargetCurrency;
         }
 
         public ICommand FlipCurrenciesCommand { get; } 

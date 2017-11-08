@@ -5,9 +5,61 @@
     xmlns:local="using:CurrencyPL"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="100">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="79*"/>
+                <RowDefinition Height="21*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="127*"/>
+                <ColumnDefinition Width="47*"/>
+                <ColumnDefinition Width="127*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Width="45">Source</TextBlock>
+            <ComboBox  Grid.Row="0" Grid.Column="0"
+                x:Name="TargetCurrencyCombo"
+                      ItemsSource="{Binding AvailableCurrencies}" 
+                      SelectedItem="{Binding TargetCurrency, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="120" />
+            <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Width="41">Target</TextBlock>
+            <ComboBox Grid.Column="2" Grid.Row="0" x:Name="SourceCurrencyCombo" 
+                      ItemsSource="{Binding AvailableCurrencies}" 
+                      SelectedItem="{Binding SourceCurrency, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="120"/>
+            <Button Grid.Row="0" Grid.Column="1" x:Name="button" Command="{Binding FlipCurrenciesCommand}" HorizontalAlignment="Center" Height="40" Width="40">
+                <Image Source="Assets/flipIcon.png"/>
+            </Button>
+        </Grid>
 
-    </Grid>
+        <charting:Chart x:Name="OurChart">
+            <charting:LineSeries 
+                    x:Name="OurLinesChart"
+                    Title="Rate"
+                    ItemsSource="{Binding GraphPairs}"
+                    IndependentValueBinding="{Binding Key}"
+                    DependentValueBinding="{Binding Value}"
+                    IsSelectionEnabled="True" >
+                <charting:LineSeries.IndependentAxis>
+                    <charting:DateTimeAxis Orientation="X" >
+                        <charting:DateTimeAxis.AxisLabelStyle>
+                            <Style TargetType="charting:DateTimeAxisLabel">
+                                <Setter Property="StringFormat" Value="{}{0:dd/MM}" />
+                            </Style>
+                        </charting:DateTimeAxis.AxisLabelStyle>
+
+                    </charting:DateTimeAxis>
+                </charting:LineSeries.IndependentAxis>
+            </charting:LineSeries>
+            
+        </charting:Chart>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <RadioButton Content="Week" Command="{Binding SelectRangeCommand}" CommandParameter="Week"/>
+
+            <RadioButton Content="Month" Command="{Binding SelectRangeCommand}" CommandParameter="Month"/>
+
+            <RadioButton Content="Year" Command="{Binding SelectRangeCommand}" CommandParameter="Year"/>
+        </StackPanel>
+    </StackPanel>
 </Page>

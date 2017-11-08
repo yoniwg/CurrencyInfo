@@ -25,11 +25,12 @@ namespace CurrencyPL.ViewModels
         /// <typeparam name="T">The type of the property value.</typeparam>
         /// <param name="propertySelector">Expression tree contains the property            definition.</param>
         /// <param name="value">The property value.</param>
-        protected void SetValue<T>(Expression<Func<T>> propertySelector, T value, Action onChanged = null)
+        protected void SetValue<T>(Expression<Func<T>> propertySelector, T value, Action onChanged = null, Action onChanging = null)
         {
+            onChanging?.Invoke();
             string propertyName = GetPropertyName(propertySelector);
             SetValue<T>(propertyName, value);
-            if (onChanged != null) onChanged();
+            onChanged?.Invoke();
         }
         /// <summary>
         /// Sets the value of a property.

@@ -20,7 +20,8 @@ namespace CurrencyBL
 
         private ReactiveProperty<CurrencyConverter> liveConverter = new ReactiveProperty<CurrencyConverter>();
 
-        public IEnumerable<Currency> AvailableCurrencies => liveConverter.Value.AvailableCurrencies;
+        public IEnumerable<Currency> AvailableCurrencies => liveConverter.Value.AvailableCurrencies
+            .OrderBy(curr => curr.Code);
 
         private Task initTask;
 
@@ -74,7 +75,7 @@ namespace CurrencyBL
                 .GroupBy(rec => rec.RateDate)
                 .OrderBy(dateRecGroup => dateRecGroup.Key)
                 .Select(dateRecGroup => dateRecGroup.Select(rec => rec.Rate).Single())
-                .ToList();
+                .ToArray();
         }
 
         private IDictionary<Currency, LiveRate> liveRatesOfCurrency(Currency target)
@@ -109,9 +110,21 @@ namespace CurrencyBL
         public HistoricalRate GetHistoricalRate(Currency source, Currency target, DateTime start, DateTime end)
         {
             var sourceRates = getHistoricalRatesToUSD(source, start, end);
-            var targetRates = getHistoricalRatesToUSD(source, start, end);
-            var rates = targetRates.Zip(sourceRates, (x, y) => x / y);
-            return new HistoricalRate(rates);
+            var targetRates = getHistoricalRatesToUSD(target, start, end);
+            var rates = targetRates.Zip(sourceRates, (t, s) => t / s).ToArray();
+            var daysCount = (end.Date - start.Date).Days;
+            if (rates.Length < daysCount)
+            {
+                var completeRates = new decimal[daysCount];
+                var missingDays = daysCount - rates.Length;
+                for (int i = 0; i < missingDays; i++)
+                {
+                    completeRates[i] = rates[0];
+                }
+                rates.CopyTo(completeRates, missingDays);
+                rates = completeRates;
+            }
+            return new HistoricalRate(source, target, start, rates);
         }
 
 

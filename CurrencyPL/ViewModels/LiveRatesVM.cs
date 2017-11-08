@@ -12,11 +12,11 @@ namespace CurrencyPL.ViewModels
     {
         private readonly ICurrencyBusinessLogic logic;
 
-        public LiveRatesVM(ICurrencyBusinessLogic logic)
+        public LiveRatesVM(ICurrencyBusinessLogic logic, AppPreferences prefs)
         {
             this.logic = logic;
-            TargetCurrency = null; // TODO
-            var sourceCurrencies = logic.AvailableCurrencies; // TODO
+            TargetCurrency = prefs.MainTargetCurrency;
+            var sourceCurrencies = logic.AvailableCurrencies; // TODO?
             logic.LiveRatesOfCurrency(TargetCurrency).Subscribe(liveRatesMap =>
             {
                 LiveRates = liveRatesMap

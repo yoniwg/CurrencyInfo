@@ -12,16 +12,19 @@ namespace CurrencyPL.ViewModels
 
         private ICurrencyBusinessLogic logic;
 
-        public ViewModelInjection(ICurrencyBusinessLogic logic)
+        private AppPreferences settings;
+
+        public ViewModelInjection(ICurrencyBusinessLogic logic, AppPreferences settings)
         {
             this.logic = logic;
+            this.settings = settings;
         }
 
-        public ConvertionVM ProvideConversionVM() => new ConvertionVM(logic);
+        public ConvertionVM ProvideConversionVM() => new ConvertionVM(logic, settings);
 
-        public LiveRatesVM ProvideLiverateVM() => new LiveRatesVM(logic);
+        public LiveRatesVM ProvideLiverateVM() => new LiveRatesVM(logic, settings);
 
-        public HistoryVM ProvideHistoryVM() => new HistoryVM(logic);
+        public HistoryVM ProvideHistoryVM() => new HistoryVM(logic, settings);
 
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using CurrencyPL.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +23,14 @@ namespace CurrencyPL
     /// </summary>
     public sealed partial class HistoryPage : Page
     {
+        
         public HistoryPage()
         {
             this.InitializeComponent();
+
+            var viewModel = ((App)Application.Current).VMInjuction.ProvideHistoryVM();
+            DataContext = viewModel;
         }
+        
     }
 }

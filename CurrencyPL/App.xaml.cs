@@ -26,7 +26,6 @@ namespace CurrencyPL
     sealed partial class App : Application
     {
 
-        private ICurrencyBusinessLogic Logic;
         public ViewModelInjection VMInjuction { get; }
 
         /// <summary>
@@ -38,9 +37,11 @@ namespace CurrencyPL
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             
-            Logic = new CurrencyBusinessLogic();
-            Logic.Init();
-            VMInjuction = new ViewModelInjection(Logic);
+            var logic = new CurrencyBusinessLogic();
+            var prefs = new AppPreferences();
+            logic.Init();
+            VMInjuction = new ViewModelInjection(logic, prefs);
+
         }
 
         /// <summary>

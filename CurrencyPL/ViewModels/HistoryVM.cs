@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 
 namespace CurrencyPL.ViewModels
 {
@@ -17,10 +18,21 @@ namespace CurrencyPL.ViewModels
 
         public ICommand SelectRangeCommand { get; }
 
-        public HistoryVM(ICurrencyBusinessLogic logic)
+        public HistoryVM(ICurrencyBusinessLogic logic, AppPreferences prefs)
         {
             this.logic = logic;
-            this.SelectRangeCommand = new AbstractCommand(param => SelectedRange = (HistoryRange)param);
+            this.SelectRangeCommand = new AbstractCommand(param => SelectedRange = Enum.Parse<HistoryRange>(param.ToString().ToUpper()));
+            this.FlipCurrenciesCommand = new AbstractCommand(_ =>
+            {
+                var oldSource = SourceCurrency;
+                var oldTarget = TargetCurrency;
+                SourceCurrency = oldTarget;
+                TargetCurrency = oldSource;
+            });
+            this.AvailableCurrencies = logic.AvailableCurrencies.ToArray();
+
+            SourceCurrency = prefs.DefaultSourceCurrency;
+            TargetCurrency = prefs.MainTargetCurrency;
         }
 
         public Currency TargetCurrency
@@ -29,28 +41,87 @@ namespace CurrencyPL.ViewModels
             set => SetValue(() => TargetCurrency, value, RefreshGraph);
         }
 
-        public Currency SourceCurency
+        public Currency SourceCurrency
         {
-            get => GetValue(() => SourceCurency);
-            set => SetValue(() => SourceCurency, value, RefreshGraph);
+            get => GetValue(() => SourceCurrency);
+            set => SetValue(() => SourceCurrency, value, RefreshGraph);
         }
+
+        public bool WeekChecked
+        {
+            get => GetValue(() => WeekChecked);
+            set => SetValue(() => WeekChecked, value);
+        }
+
+        public bool MonthChecked
+        {
+            get => GetValue(() => MonthChecked);
+            set => SetValue(() => MonthChecked, value);
+        }
+
+        public bool YearChecked
+        {
+            get => GetValue(() => YearChecked);
+            set => SetValue(() => YearChecked, value);
+        }
+
 
         public HistoryRange SelectedRange
         {
             get => GetValue(() => SelectedRange);
             set => SetValue(() => SelectedRange, value, RefreshGraph);
         }
-
-        private HistoricalRate History
+        
+        public IList<KeyValuePair<object,double>> GraphPairs
         {
-            get => GetValue(() => History);
-            set => SetValue(() => History, value);
+            get => GetValue(() => GraphPairs);
+            set => SetValue(() => GraphPairs, value);
         }
+
+        public IList<Currency> AvailableCurrencies { get; }
 
         private void RefreshGraph()
         {
+            if (SelectedRange == null || SourceCurrency == null || TargetCurrency == null) return;
             DateTime start = GetStartDateForRange(SelectedRange);
-            logic.GetHistoricalRate(SourceCurency, TargetCurrency, start, DateTime.Now);
+            var history = logic.GetHistoricalRate(SourceCurrency, TargetCurrency, start, DateTime.Now);
+            GraphPairs = historyToPairs(history);
+        }
+
+        private IList<KeyValuePair<object, double>> historyToPairs(HistoricalRate history)
+        {
+            int count = history.Rates.Count;
+            int lastIndex = count - 1;
+            var maxPoints = 31;
+            var step = Math.Max(count / maxPoints, 1);
+            var start = history.StartDate;
+
+            object KeyForRate(int i)
+            {
+                var date = start.AddDays(i);
+                //return date.ToShortDateString();
+                return date;
+            };
+
+            var rates = history.Rates;
+            IList<KeyValuePair<object, double>> pairs;
+
+            if (rates.Count <= maxPoints)
+            {
+                pairs = rates
+                    .Select((rate, i) => new KeyValuePair<object, double>(KeyForRate(i), (double)rate))
+                    .ToArray();
+            } else
+            {
+                pairs = rates
+                    .Select((rate, i) => new KeyValuePair<object, double>(KeyForRate(i), (double)rate))
+                    .Where((_,i)=> (lastIndex - i) % step == 0 || i == lastIndex)
+                    .ToArray();
+            }
+
+            // pairs = pairs.Select((pair, i) => new KeyValuePair<object, double>(i % (pairs.Count / 5) == 0 ? pair.Key : ".", pair.Value)).ToArray();
+            
+            return pairs;
         }
 
         private DateTime GetStartDateForRange(HistoryRange range)
@@ -68,9 +139,15 @@ namespace CurrencyPL.ViewModels
             }
         }
 
+
+        public ICommand FlipCurrenciesCommand { get; }
+
+
     }
 
-     public enum HistoryRange
+  
+
+    public enum HistoryRange
     {
         WEEK, MONTH, YEAR
     }
