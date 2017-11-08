@@ -9,6 +9,7 @@
 
 
     <NavigationView x:Name="NavView"
+                    Loaded="NavView_Loaded"
                     ItemInvoked="NavView_ItemInvoked"
                     SelectionChanged="NavView_SelectionChanged">
         

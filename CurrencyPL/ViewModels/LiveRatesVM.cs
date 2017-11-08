@@ -15,12 +15,12 @@ namespace CurrencyPL.ViewModels
         public IList<Currency> AvailableCurrencies { get; }
         public IList<Currency> SourceCurrencies { get; }
 
-        public LiveRatesVM(ICurrencyBusinessLogic logic)
+        public LiveRatesVM(ICurrencyBusinessLogic logic, AppPreferences prefs)
         {
             this.logic = logic;
             AvailableCurrencies = logic.AvailableCurrencies.ToArray();
             SourceCurrencies = AvailableCurrencies;
-            TargetCurrency = AvailableCurrencies[0];
+            TargetCurrency = prefs.MainTargetCurrency;
 
         }
 

@@ -45,8 +45,20 @@ namespace CurrencyPL
         {
             this.InitializeComponent();
             DataContext = this;
-            ContentFrame.Navigate(typeof(HomePage));
             TitleOfFrame = "Hello";
+        }
+
+        public void NavView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // set the initial SelectedItem 
+            foreach (NavigationViewItemBase item in NavView.MenuItems)
+            {
+                if (item is NavigationViewItem && item.Tag.ToString() == "home")
+                {
+                    NavView.SelectedItem = item;
+                    break;
+                }
+            }
         }
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -88,5 +100,6 @@ namespace CurrencyPL
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }

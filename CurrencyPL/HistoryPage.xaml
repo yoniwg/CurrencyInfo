@@ -55,11 +55,11 @@
             
         </charting:Chart>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <RadioButton Content="Week" Command="{Binding SelectRangeCommand}" CommandParameter="Week"/>
+            <RadioButton Content="Week" Checked="{Binding WeekChecked}" />
 
-            <RadioButton Content="Month" Command="{Binding SelectRangeCommand}" CommandParameter="Month"/>
+            <RadioButton Content="Month" Checked="{Binding MonthChecked}" />
 
-            <RadioButton Content="Year" Command="{Binding SelectRangeCommand}" CommandParameter="Year"/>
+            <RadioButton Content="Year" Checked="{Binding YearChecked}"/>
         </StackPanel>
     </StackPanel>
 </Page>

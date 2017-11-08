@@ -15,13 +15,10 @@ namespace CurrencyPL.ViewModels
     {
 
         private readonly ICurrencyBusinessLogic logic;
-
-        public ICommand SelectRangeCommand { get; }
-
+        
         public HistoryVM(ICurrencyBusinessLogic logic, AppPreferences prefs)
         {
             this.logic = logic;
-            this.SelectRangeCommand = new AbstractCommand(param => SelectedRange = Enum.Parse<HistoryRange>(param.ToString().ToUpper()));
             this.FlipCurrenciesCommand = new AbstractCommand(_ =>
             {
                 var oldSource = SourceCurrency;
@@ -33,6 +30,8 @@ namespace CurrencyPL.ViewModels
 
             SourceCurrency = prefs.DefaultSourceCurrency;
             TargetCurrency = prefs.MainTargetCurrency;
+
+            WeekChecked = true;
         }
 
         public Currency TargetCurrency
@@ -50,19 +49,19 @@ namespace CurrencyPL.ViewModels
         public bool WeekChecked
         {
             get => GetValue(() => WeekChecked);
-            set => SetValue(() => WeekChecked, value);
+            set => SetValue(() => WeekChecked, value, () => SelectedRange = HistoryRange.WEEK);
         }
 
         public bool MonthChecked
         {
             get => GetValue(() => MonthChecked);
-            set => SetValue(() => MonthChecked, value);
+            set => SetValue(() => MonthChecked, value, () => SelectedRange = HistoryRange.MONTH);
         }
 
         public bool YearChecked
         {
             get => GetValue(() => YearChecked);
-            set => SetValue(() => YearChecked, value);
+            set => SetValue(() => YearChecked, value, () => SelectedRange = HistoryRange.YEAR);
         }
 
 
