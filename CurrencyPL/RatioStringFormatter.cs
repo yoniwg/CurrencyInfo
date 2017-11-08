@@ -11,13 +11,16 @@ namespace CurrencyPL
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return String.Format("{0:F2}%",value);
+            decimal? decValue = value as decimal?;
+            if (!decValue.HasValue) return "Not Decimal";
+            if (decValue == 1) return "  --  ";
+            return String.Format((decValue > 1) ? "+{0:F2}%" : "{0:F2}%", decValue * 100 - 100);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             string strValue = value.ToString();
-            return decimal.TryParse(strValue.Remove(strValue.Length - 1), out decimal dec) ? dec as decimal? : null;
+            return decimal.TryParse(strValue.Remove(strValue.Length - 1), out decimal dec) ? dec as decimal? : 0;
         }
     }
 }
