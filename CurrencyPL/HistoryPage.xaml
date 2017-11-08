@@ -8,8 +8,13 @@
     xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
     mc:Ignorable="d">
 
-    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="100">
+    <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="100">
             <Grid.RowDefinitions>
                 <RowDefinition Height="79*"/>
                 <RowDefinition Height="21*"/>
@@ -33,7 +38,7 @@
             </Button>
         </Grid>
 
-        <charting:Chart x:Name="OurChart">
+        <charting:Chart x:Name="OurChart" Grid.Row="1">
             <charting:LineSeries 
                     x:Name="OurLinesChart"
                     Title="Rate"
@@ -52,14 +57,12 @@
                     </charting:DateTimeAxis>
                 </charting:LineSeries.IndependentAxis>
             </charting:LineSeries>
-            
+
         </charting:Chart>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <RadioButton Content="Week" Checked="{Binding WeekChecked}" />
-
-            <RadioButton Content="Month" Checked="{Binding MonthChecked}" />
-
-            <RadioButton Content="Year" Checked="{Binding YearChecked}"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <RadioButton Content="Week" IsChecked="{Binding WeekChecked, Mode=TwoWay}" />
+            <RadioButton Content="Month" IsChecked="{Binding MonthChecked, Mode=TwoWay}" />
+            <RadioButton Content="Year" IsChecked="{Binding YearChecked, Mode=TwoWay}"/>
         </StackPanel>
-    </StackPanel>
+    </Grid>
 </Page>

@@ -49,19 +49,19 @@ namespace CurrencyPL.ViewModels
         public bool WeekChecked
         {
             get => GetValue(() => WeekChecked);
-            set => SetValue(() => WeekChecked, value, () => SelectedRange = HistoryRange.WEEK);
+            set => SetValue(() => WeekChecked, value, () => { if (value) SelectedRange = HistoryRange.WEEK; });
         }
 
         public bool MonthChecked
         {
             get => GetValue(() => MonthChecked);
-            set => SetValue(() => MonthChecked, value, () => SelectedRange = HistoryRange.MONTH);
+            set => SetValue(() => MonthChecked, value, () => { if (value) SelectedRange = HistoryRange.MONTH; });
         }
 
         public bool YearChecked
         {
             get => GetValue(() => YearChecked);
-            set => SetValue(() => YearChecked, value, () => SelectedRange = HistoryRange.YEAR);
+            set => SetValue(() => YearChecked, value, () => { if (value) SelectedRange = HistoryRange.YEAR; });
         }
 
 

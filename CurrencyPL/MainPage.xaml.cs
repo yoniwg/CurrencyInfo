@@ -63,6 +63,13 @@ namespace CurrencyPL
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
+            if (args.IsSettingsInvoked)
+            {
+                ContentFrame.Navigate(typeof(SettingsPage));
+                TitleOfFrame = "Settings";
+                return;
+            }
+
             TitleOfFrame = args.InvokedItem as string;
             switch (args.InvokedItem)
             {
