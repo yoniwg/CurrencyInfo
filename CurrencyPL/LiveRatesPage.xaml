@@ -5,9 +5,52 @@
     xmlns:local="using:CurrencyPL"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="using:System"
+    xmlns:currencyBl="using:CurrencyBL"
     mc:Ignorable="d">
+    <Page.Resources>
+        <local:ColorOfChangeConverter x:Key="ColorOfChangeConverter"/>
+        <local:DecimalStringFormatter x:Key="DecimalStringFormatter"/>
+        <local:RatioStringFormatter x:Key="RatioStringFormatter"/>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="53*"/>
+            <RowDefinition Height="447*"/>
+        </Grid.RowDefinitions>
+        <ComboBox  Grid.Row="0"
+                   x:Name="CurrencyCombo"
+                   ItemsSource="{Binding AvailableCurrencies}" 
+                   SelectedItem="{Binding TargetCurrency, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="120" />
+        <ListView x:Name="RatesListView" ItemsSource="{Binding LiveRates}"
+                  Grid.Row="1" HorizontalAlignment="Center" BorderBrush="LightGray">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="400">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Path=Source}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=Rate, Converter={StaticResource DecimalStringFormatter}}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Path=ChangeRatio, Converter={StaticResource RatioStringFormatter}}" Foreground="{Binding Path=ChangeRatio, Converter={StaticResource ColorOfChangeConverter}}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Header>
+                <Grid Width="400">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*"/>
+                        <ColumnDefinition Width="100*"/>
+                        <ColumnDefinition Width="100*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Currency Code"/>
+                    <TextBlock Grid.Column="1" Text="Live Rate"/>
+                    <TextBlock Grid.Column="2" Text="Changed By"/>
+                </Grid>
+            </ListView.Header>
+        </ListView>
     </Grid>
 </Page>

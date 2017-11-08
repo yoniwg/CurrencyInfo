@@ -18,6 +18,8 @@ namespace CurrencyBL
 
         IObservable<IDictionary<Currency, LiveRate>> LiveRatesOfCurrency(Currency source);
 
+        IDictionary<Currency, LiveRate> LiveRatesOfCurrencyDic(Currency source);
+
 
         /// <summary>Get a list of historical rates of certain currencies.</summary>
         /// <param name="source"></param>

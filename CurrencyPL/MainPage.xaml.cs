@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -16,6 +18,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Windows.UI.Popups;
 using CurrencyPL.ViewModels;
 using CurrencyBL;
+using CurrencyPL.Annotations;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -24,19 +27,32 @@ namespace CurrencyPL
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        private string titleOfFrame;
 
+        public String TitleOfFrame
+        {
+            get => titleOfFrame;
+            set
+            {
+                titleOfFrame = value;
+                OnPropertyChanged(nameof(TitleOfFrame));
+            }
+        }
 
         public MainPage()
         {
             this.InitializeComponent();
-
+            DataContext = this;
+            ContentFrame.Navigate(typeof(HomePage));
+            TitleOfFrame = "Hello";
         }
 
-        private async void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            switch(args.InvokedItem)
+            TitleOfFrame = args.InvokedItem as string;
+            switch (args.InvokedItem)
             {
                 case "Home":
                     ContentFrame.Navigate(typeof(HomePage));
@@ -55,6 +71,7 @@ namespace CurrencyPL
                     break;
                 default:
                     ContentFrame.Navigate(typeof(ErrorPage));
+                    TitleOfFrame = "Error";
                     break;
             }
         }
@@ -64,24 +81,12 @@ namespace CurrencyPL
 
         }
 
-        private void NavView_Loaded(object sender, RoutedEventArgs e)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            // set the initial SelectedItem 
-            foreach (NavigationViewItemBase item in NavView.MenuItems)
-            {
-                if (item is NavigationViewItem && item.Tag.ToString() == "home")
-                {
-                    NavView.SelectedItem = item;
-                    break;
-                }
-            }
-
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        private async void More_Click(object sender, RoutedEventArgs e)
-        {
-            await new MessageDialog("This amaizong application havae been done by HGWY Technologies...").ShowAsync();
-        }
-
     }
 }

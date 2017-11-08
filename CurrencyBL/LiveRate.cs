@@ -5,7 +5,7 @@ namespace CurrencyBL
 {
     public class LiveRate
     {
-
+        public LiveRate() { }
         public LiveRate(Currency source, Currency target, decimal rate, decimal changeRatio)
         {
             this.Rate = rate;
@@ -14,9 +14,9 @@ namespace CurrencyBL
             this.Source = source;
         }
 
-        public decimal Rate { get; }
-        public decimal ChangeRatio { get; }
-        public Currency Target { get; }
-        public Currency Source { get; }
+        public decimal Rate { get; set; }
+        public decimal ChangeRatio { get; set; }
+        public Currency Target { get; set; }
+        public Currency Source { get; set; }
     }
 }
