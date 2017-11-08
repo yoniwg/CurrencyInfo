@@ -10,8 +10,8 @@
 
     <NavigationView x:Name="NavView"
                     ItemInvoked="NavView_ItemInvoked"
-                    SelectionChanged="NavView_SelectionChanged"
-                    Loaded="NavView_Loaded">
+                    SelectionChanged="NavView_SelectionChanged">
+        
         <NavigationView.MenuItems>
             <NavigationViewItem Content="Home" Tag="home">
                 <NavigationViewItem.Icon>
@@ -44,7 +44,7 @@
                     <TextBlock Style="{StaticResource TitleTextBlockStyle}"
                            FontSize="24"
                            VerticalAlignment="Center"
-                           Text="Currency Information"/>
+                           Text="{Binding TitleOfFrame}"/>
                 </Grid>
             </DataTemplate>
         </NavigationView.HeaderTemplate>

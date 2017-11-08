@@ -12,6 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CurrencyBE;
+using CurrencyBL;
+using CurrencyPL.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -24,6 +27,8 @@ namespace CurrencyPL
     {
         public LiveRatesPage()
         {
+            var ViewModel = ((App)Application.Current).VMInjuction.ProvideLiverateVM();
+            DataContext = ViewModel;
             this.InitializeComponent();
         }
     }

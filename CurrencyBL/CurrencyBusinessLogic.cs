@@ -84,11 +84,10 @@ namespace CurrencyBL
                 .Distinct()
                 .OrderByDescending(date => date)
                 .Take(2)
-                .Reverse()
                 .ToArray();
 
-            var converter1 = getCurrencyConverter(lastTwoDates[0]);
-            var converter2 = getCurrencyConverter(lastTwoDates[1]);
+            var converter1 = getCurrencyConverter(lastTwoDates[1]);
+            var converter2 = getCurrencyConverter(lastTwoDates[0]);
             var availableCurrencies = converter1.AvailableCurrencies.Intersect(converter2.AvailableCurrencies);
             Func<Currency, LiveRate> currencyToLiveRate = sourceCurrency =>
             {
@@ -120,6 +119,12 @@ namespace CurrencyBL
             return Observable
                 .FromEvent(h => data.OnLiveRatesUpdated += h, h => data.OnLiveRatesUpdated -= h)
                 .Select(_ => liveRatesOfCurrency(target));
+         
+        }
+
+        public IDictionary<Currency, LiveRate> LiveRatesOfCurrencyDic(Currency target)
+        {
+            return liveRatesOfCurrency(target);
         }
     }
 }
