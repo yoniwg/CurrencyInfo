@@ -41,7 +41,7 @@
         <charting:Chart x:Name="OurChart" Grid.Row="1">
             <charting:LineSeries 
                     x:Name="OurLinesChart"
-                    Title="Rate"
+                    Title="{Binding SourceCurrency, Mode=TwoWay}"
                     ItemsSource="{Binding GraphPairs}"
                     IndependentValueBinding="{Binding Key}"
                     DependentValueBinding="{Binding Value}"

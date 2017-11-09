@@ -110,7 +110,7 @@ namespace CurrencyBL
         {
             var sourceRates = getHistoricalRatesToUSD(source, start, end);
             var targetRates = getHistoricalRatesToUSD(target, start, end);
-            var rates = targetRates.Zip(sourceRates, (t, s) => t / s).ToArray();
+            var rates = targetRates.Zip(sourceRates, (t, s) => s / t).ToArray();
             var daysCount = (end.Date - start.Date).Days;
             if (rates.Length < daysCount)
             {
