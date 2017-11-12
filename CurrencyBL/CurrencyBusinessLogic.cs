@@ -23,31 +23,16 @@ namespace CurrencyBL
         public IEnumerable<Currency> AvailableCurrencies => liveConverter.Value.AvailableCurrencies
             .OrderBy(curr => curr.Code);
 
-        private Task initTask;
-
-        public void Init()
+        public async void InitAsync()
         {
-            initActual();
-            /*
-            // avoid multiple initiializations.
-            if (initTask == null || initTask.IsCanceled || initTask.IsFaulted)
-            {
-                initTask = initActual();
-            }
-            await initTask;
-            */
-        }
-
-        public void initActual()
-        {
-                data.InitHistoricalDataAsync();
-                data.UpdateLiveRatesAsync();
-                RefreshLiveConverterAsync();
-                data.OnLiveRatesUpdated += () => RefreshLiveConverterAsync();
+                await data.InitHistoricalDataAsync();
+                await data.UpdateLiveRatesAsync();
+                RefreshLiveConverter();
+                data.OnLiveRatesUpdated += RefreshLiveConverter;
             
         }
         
-        private void RefreshLiveConverterAsync()
+        private void RefreshLiveConverter()
         {
             liveConverter.Value = getLiveCurrencyConverter();
         }

@@ -14,7 +14,7 @@
         <local:RatioStringFormatter x:Key="RatioStringFormatter"/>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="53*"/>
             <RowDefinition Height="447*"/>

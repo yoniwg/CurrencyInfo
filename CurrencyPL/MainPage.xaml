@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-
+    <Page.Background>
+        <ImageBrush ImageSource="Assets/9343.jpg" Opacity="0.5" Stretch="UniformToFill"></ImageBrush>
+    </Page.Background>
     <NavigationView x:Name="NavView"
                     Loaded="NavView_Loaded"
                     ItemInvoked="NavView_ItemInvoked"

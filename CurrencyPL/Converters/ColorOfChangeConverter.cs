@@ -14,7 +14,7 @@ namespace CurrencyPL
             {
                 return "Black";
             }
-            return (decValue > 1) ? "Green" : (decValue < 1) ? "Red" : "Yellow";
+            return (decValue > 1) ? "Green" : (decValue < 1) ? "Red" : "Black";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

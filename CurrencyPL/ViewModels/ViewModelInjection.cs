@@ -26,5 +26,10 @@ namespace CurrencyPL.ViewModels
 
         public HistoryVM ProvideHistoryVM() => new HistoryVM(logic, settings);
 
+        public void InitLogic()
+        {
+            logic.InitAsync();
+        }
+
     }
 }

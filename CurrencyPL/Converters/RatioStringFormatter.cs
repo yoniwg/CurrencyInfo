@@ -13,7 +13,8 @@ namespace CurrencyPL
         {
             decimal? decValue = value as decimal?;
             if (!decValue.HasValue) return "Not Decimal";
-            if (decValue == 1) return "  --  ";
+            decimal percentValue = new decimal((double) (decValue * 100 - 100));
+            if (percentValue < new decimal(0.01) && percentValue > new decimal(-0.01)) return "  --  ";
             return String.Format((decValue > 1) ? "+{0:F2}%" : "{0:F2}%", decValue * 100 - 100);
         }
 

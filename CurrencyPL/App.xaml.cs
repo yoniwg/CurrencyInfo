@@ -39,8 +39,8 @@ namespace CurrencyPL
             
             var logic = new CurrencyBusinessLogic();
             var prefs = new AppPreferences();
-            logic.Init();
             VMInjuction = new ViewModelInjection(logic, prefs);
+            VMInjuction.InitLogic();
 
         }
 

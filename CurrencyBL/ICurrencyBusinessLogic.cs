@@ -29,7 +29,7 @@ namespace CurrencyBL
         /// <returns>A list of rates for each day in the range.</returns>
         HistoricalRate GetHistoricalRate(Currency source, Currency target, DateTime start, DateTime end);
 
-        void Init();
+        void InitAsync();
 
     }
 

@@ -93,9 +93,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorOfChangeConverter.cs" />
-    <Compile Include="RatioStringFormatter.cs" />
-    <Compile Include="DecimalStringFormatter.cs" />
+    <Compile Include="Converters\ColorOfChangeConverter.cs" />
+    <Compile Include="Converters\RatioStringFormatter.cs" />
+    <Compile Include="Converters\DecimalStringFormatter.cs" />
     <Compile Include="ConvertionPage.xaml.cs">
       <DependentUpon>ConvertionPage.xaml</DependentUpon>
     </Compile>
@@ -114,6 +114,9 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AbstractCommand.cs" />
     <Compile Include="ViewModels\AbstractVM.cs" />
@@ -138,18 +141,43 @@
     <None Include="CurrencyPL_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\9343.jpg" />
+    <Content Include="Assets\appIcon.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\appIcon.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\appIcon.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\appIcon.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\appIcon.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\appIcon.scale-100.png" />
+    <Content Include="Assets\appIcon.scale-125.png" />
+    <Content Include="Assets\appIcon.scale-150.png" />
+    <Content Include="Assets\appIcon.scale-200.png" />
+    <Content Include="Assets\appIcon.scale-400.png" />
+    <Content Include="Assets\appIcon.targetsize-16.png" />
+    <Content Include="Assets\appIcon.targetsize-24.png" />
+    <Content Include="Assets\appIcon.targetsize-256.png" />
+    <Content Include="Assets\appIcon.targetsize-32.png" />
+    <Content Include="Assets\appIcon.targetsize-48.png" />
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\convertIcon.png" />
+    <Content Include="Assets\DoubleRing.gif" />
     <Content Include="Assets\flipIcon.png" />
     <Content Include="Assets\history.png" />
     <Content Include="Assets\rates.png" />
-    <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -181,6 +209,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

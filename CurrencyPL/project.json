@@ -2,10 +2,11 @@
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "6.0.1",
     "ReactiveProperty": "3.6.0",
-    "System.Reactive": "3.1.1"
+    "System.Reactive": "3.1.1",
+    "XamlAnimatedGif": "1.1.10"
   },
   "frameworks": {
-    "uap10.0.10586": {}
+    "uap10.0.16299": {}
   },
   "runtimes": {
     "win10-arm": {},
