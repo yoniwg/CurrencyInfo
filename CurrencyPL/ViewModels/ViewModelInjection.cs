@@ -20,6 +20,8 @@ namespace CurrencyPL.ViewModels
             this.settings = settings;
         }
 
+        public AppPreferences ProvideAppPreference() => settings;
+
         public ConvertionVM ProvideConversionVM() => new ConvertionVM(logic, settings);
 
         public LiveRatesVM ProvideLiverateVM() => new LiveRatesVM(logic, settings);

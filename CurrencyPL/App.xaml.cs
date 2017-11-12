@@ -38,7 +38,8 @@ namespace CurrencyPL
             this.Suspending += OnSuspending;
             
             var logic = new CurrencyBusinessLogic();
-            var prefs = new AppPreferences();
+            logic.InitAsync();
+            var prefs = new AppPreferences(logic);
             VMInjuction = new ViewModelInjection(logic, prefs);
             VMInjuction.InitLogic();
 

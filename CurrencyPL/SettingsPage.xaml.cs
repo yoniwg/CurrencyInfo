@@ -25,6 +25,9 @@ namespace CurrencyPL
         public SettingsPage()
         {
             this.InitializeComponent();
+
+            DataContext = ((App)Application.Current).VMInjuction.ProvideAppPreference();
+
         }
     }
 }

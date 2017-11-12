@@ -8,6 +8,6 @@
     mc:Ignorable="d">
 
     <Grid>
-
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="72" FontStyle="Italic" RequestedTheme="Default">Welcome!</TextBlock>
     </Grid>
 </Page>
