@@ -41,7 +41,6 @@ namespace CurrencyPL
             logic.InitAsync();
             var prefs = new AppPreferences(logic);
             VMInjuction = new ViewModelInjection(logic, prefs);
-            VMInjuction.InitLogic();
 
         }
 

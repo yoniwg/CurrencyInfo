@@ -31,7 +31,7 @@ namespace CurrencyPL
 
         private void initializeApp()
         {
-            ((App)Application.Current).VMInjuction.InitLogic();
+            //((App)Application.Current).VMInjuction.InitLogic();
             //this.Frame.Navigate(typeof(MainPage));
         }
         

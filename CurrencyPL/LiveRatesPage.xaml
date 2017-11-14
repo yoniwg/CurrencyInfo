@@ -19,12 +19,17 @@
             <RowDefinition Height="53*"/>
             <RowDefinition Height="447*"/>
         </Grid.RowDefinitions>
-        <ComboBox  Grid.Row="0"
-                   x:Name="CurrencyCombo"
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Live Rates To" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <ComboBox  x:Name="CurrencyCombo"
                    ItemsSource="{Binding AvailableCurrencies}" 
                    SelectedItem="{Binding TargetCurrency, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="120" />
+        </StackPanel>
         <ListView x:Name="RatesListView" ItemsSource="{Binding LiveRates}"
                   Grid.Row="1" HorizontalAlignment="Center" BorderBrush="LightGray">
+            <ListView.Background>
+                <SolidColorBrush Color="#FFFFF7E1" Opacity="0.1"/>
+            </ListView.Background>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Width="400">

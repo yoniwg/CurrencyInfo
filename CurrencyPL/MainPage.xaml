@@ -26,7 +26,7 @@
                     <PathIcon Data="F1 M 54,52.0001L 29.25,52.0001L 37.25,60L 26.75,60L 14.75,48.0001L 26.75,36L 37.25,36L 29.25,44.0001L 54,44.0001L 54,52.0001 Z M 22,23.9999L 46.75,23.9999L 38.75,16L 49.25,16L 61.25,27.9999L 49.25,40L 38.75,40L 46.75,31.9999L 22,31.9999L 22,23.9999 Z "/>
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="Live Rates" Tag="live_rates">
+            <NavigationViewItem Content="Live Rates" Tag="live rates">
                 <NavigationViewItem.Icon>
                     <PathIcon Data="F1 M 22,52L 22,35L 30,35L 30,52L 22,52 Z M 32,52L 32,22L 39,22L 39,52L 32,52 Z M 41,52L 41,41L 49,41L 49,52L 41,52 Z M 51,52L 51,29L 59,29L 59,52L 51,52 Z M 17,19L 20,19L 20,54L 59,54L 59,57L 17,57L 17,19 Z " />
                 </NavigationViewItem.Icon>

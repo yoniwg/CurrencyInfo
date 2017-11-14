@@ -56,6 +56,7 @@ namespace CurrencyPL
                 if (item is NavigationViewItem && item.Tag.ToString() == "home")
                 {
                     NavView.SelectedItem = item;
+                    NavigateTo(item.Tag.ToString());
                     break;
                 }
             }
@@ -71,21 +72,27 @@ namespace CurrencyPL
             }
 
             TitleOfFrame = args.InvokedItem as string;
-            switch (args.InvokedItem)
+            var name = args.InvokedItem.ToString().ToLower();
+            NavigateTo(name);
+        }
+
+        private void NavigateTo(string name)
+        {
+            switch (name)
             {
-                case "Home":
+                case "home":
                     ContentFrame.Navigate(typeof(HomePage));
                     break;
-                case "Conversion":
+                case "conversion":
                     ContentFrame.Navigate(typeof(ConvertionPage));
                     break;
-                case "Live Rates":
+                case "live rates":
                     ContentFrame.Navigate(typeof(LiveRatesPage));
                     break;
-                case "History":
+                case "history":
                     ContentFrame.Navigate(typeof(HistoryPage));
                     break;
-                case "Settings":
+                case "settings":
                     ContentFrame.Navigate(typeof(SettingsPage));
                     break;
                 default:
